@@ -637,7 +637,8 @@
         #page-drakosha .back-to-balloons,
         #page-sochnoe-godovasie .back-to-balloons,
         #page-better-together .back-to-balloons,
-        #page-avtor .back-to-balloons {
+        #page-avtor .back-to-balloons,
+        #page-candles-green .back-to-balloons {
             position: sticky;
             top: 0;
             background: #fafafa;
@@ -675,7 +676,8 @@
         #page-drakosha .back-to-balloons button,
         #page-sochnoe-godovasie .back-to-balloons button,
         #page-better-together .back-to-balloons button,
-        #page-avtor .back-to-balloons button {
+        #page-avtor .back-to-balloons button,
+        #page-candles-green .back-to-balloons button {
             color: #67bed9;
             text-decoration: none;
             font-size: 16px;
@@ -715,7 +717,8 @@
         #page-drakosha .back-to-balloons button:hover,
         #page-sochnoe-godovasie .back-to-balloons button:hover,
         #page-better-together .back-to-balloons button:hover,
-        #page-avtor .back-to-balloons button:hover {
+        #page-avtor .back-to-balloons button:hover,
+        #page-candles-green .back-to-balloons button:hover {
             text-decoration: underline;
         }
     </style>
@@ -840,6 +843,17 @@
                         <div class="project-info">
                             <div class="project-title">Green Day</div>
                             <div class="project-tags">президиум • гостевые столы • схема рассадки • фотозона</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Candles & Green (НОВЫЙ ПРОЕКТ) -->
+                <div class="column">
+                    <div class="project-card" onclick="showPage('candles-green')">
+                        <img class="project-cover" src="/images/shoko_rocket/candels/candles (2).jpg" loading="lazy" decoding="async" alt="Candles & Green">
+                        <div class="project-info">
+                            <div class="project-title">Candles & Green</div>
+                            <div class="project-tags">камерная свадьба • президиум • гостевые столы • свечи</div>
                         </div>
                     </div>
                 </div>
@@ -1059,7 +1073,7 @@
                 </div>
             </div>
 
-            <!-- Ресторан Авторъ (НОВАЯ ЛОКАЦИЯ) -->
+            <!-- Ресторан Авторъ -->
             <h2>Ресторан «Авторъ»</h2>
             <div class="row masonry">
                 <div class="column">
@@ -1305,13 +1319,22 @@
             <div class="row masonry" id="better-together-gallery"></div>
         </div>
 
-        <!-- Ресторан Авторъ (НОВАЯ ГАЛЕРЕЯ) -->
+        <!-- Ресторан Авторъ -->
         <div id="page-avtor" class="page">
             <div class="back-to-balloons">
                 <button onclick="showPage('decor')">← Декор</button>
             </div>
             <h1>Ресторан «Авторъ»</h1>
             <div class="row masonry" id="avtor-gallery"></div>
+        </div>
+
+        <!-- Candles & Green (НОВАЯ ГАЛЕРЕЯ) -->
+        <div id="page-candles-green" class="page">
+            <div class="back-to-balloons">
+                <button onclick="showPage('decor')">← Декор</button>
+            </div>
+            <h1>Candles & Green</h1>
+            <div class="row masonry" id="candles-green-gallery"></div>
         </div>
 
         <!-- ШАРЫ (список проектов) -->
@@ -1839,7 +1862,9 @@
             // НОВАЯ ГАЛЕРЕЯ (пакет №3)
             { id: 'better-together-gallery', path: '/images/lodochnaya/vmeste/vmeste', count: 46 },
             // НОВАЯ ГАЛЕРЕЯ (ресторан Авторъ)
-            { id: 'avtor-gallery', path: '/images/avtor/kazino/kazino', count: 30 }
+            { id: 'avtor-gallery', path: '/images/avtor/kazino/kazino', count: 30 },
+            // НОВАЯ ГАЛЕРЕЯ (Candles & Green)
+            { id: 'candles-green-gallery', path: '/images/shoko_rocket/candels/candles', count: 62 }
         ];
 
         // ============================================
