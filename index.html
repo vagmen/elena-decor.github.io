@@ -636,7 +636,8 @@
         #page-cocktail-party .back-to-balloons,
         #page-drakosha .back-to-balloons,
         #page-sochnoe-godovasie .back-to-balloons,
-        #page-better-together .back-to-balloons {
+        #page-better-together .back-to-balloons,
+        #page-avtor .back-to-balloons {
             position: sticky;
             top: 0;
             background: #fafafa;
@@ -673,7 +674,8 @@
         #page-cocktail-party .back-to-balloons button,
         #page-drakosha .back-to-balloons button,
         #page-sochnoe-godovasie .back-to-balloons button,
-        #page-better-together .back-to-balloons button {
+        #page-better-together .back-to-balloons button,
+        #page-avtor .back-to-balloons button {
             color: #67bed9;
             text-decoration: none;
             font-size: 16px;
@@ -712,7 +714,8 @@
         #page-cocktail-party .back-to-balloons button:hover,
         #page-drakosha .back-to-balloons button:hover,
         #page-sochnoe-godovasie .back-to-balloons button:hover,
-        #page-better-together .back-to-balloons button:hover {
+        #page-better-together .back-to-balloons button:hover,
+        #page-avtor .back-to-balloons button:hover {
             text-decoration: underline;
         }
     </style>
@@ -1056,6 +1059,20 @@
                 </div>
             </div>
 
+            <!-- Ресторан Авторъ (НОВАЯ ЛОКАЦИЯ) -->
+            <h2>Ресторан «Авторъ»</h2>
+            <div class="row masonry">
+                <div class="column">
+                    <div class="project-card" onclick="showPage('avtor')">
+                        <img class="project-cover" src="/images/avtor/kazino/kazino (4).jpg" loading="lazy" decoding="async" alt="Авторъ">
+                        <div class="project-info">
+                            <div class="project-title">Авторъ</div>
+                            <div class="project-tags">юбилей • фотозона • гостевые столы • гелиевые шары • схема рассадки</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Фазенда -->
             <h2>Фазенда</h2>
             <div class="row masonry">
@@ -1286,6 +1303,15 @@
             </div>
             <h1>Better Together</h1>
             <div class="row masonry" id="better-together-gallery"></div>
+        </div>
+
+        <!-- Ресторан Авторъ (НОВАЯ ГАЛЕРЕЯ) -->
+        <div id="page-avtor" class="page">
+            <div class="back-to-balloons">
+                <button onclick="showPage('decor')">← Декор</button>
+            </div>
+            <h1>Ресторан «Авторъ»</h1>
+            <div class="row masonry" id="avtor-gallery"></div>
         </div>
 
         <!-- ШАРЫ (список проектов) -->
@@ -1811,7 +1837,9 @@
             { id: 'drakosha-gallery', path: '/images/dracon/dracon', count: 5 },
             { id: 'sochnoe-godovasie-gallery', path: '/images/one year/one year', count: 13 },
             // НОВАЯ ГАЛЕРЕЯ (пакет №3)
-            { id: 'better-together-gallery', path: '/images/lodochnaya/vmeste/vmeste', count: 46 }
+            { id: 'better-together-gallery', path: '/images/lodochnaya/vmeste/vmeste', count: 46 },
+            // НОВАЯ ГАЛЕРЕЯ (ресторан Авторъ)
+            { id: 'avtor-gallery', path: '/images/avtor/kazino/kazino', count: 30 }
         ];
 
         // ============================================
