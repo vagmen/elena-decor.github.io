@@ -1,11 +1,13 @@
-// Отключаем автовосстановление скролла браузера
-if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-}
+document.addEventListener('contextmenu', function(e) {
+    if (e.target.tagName === 'IMG') {
+        e.preventDefault();
+        alert('📸 Фотографии защищены авторским правом. Для использования свяжитесь с Еленой.');
+        return false;
+    }
+});
 
-// ============================================
-// КОНФИГУРАЦИЯ ГАЛЕРЕЙ
-// ============================================
+if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+let currentGallery = [], currentIndex = 0;
 const GALLERIES = [
     { id: 'mini-gallery', path: '/images/mini/mini', count: 124 },
     { id: 'green-birthday-gallery', path: '/images/silver/silver-HB', count: 8 },
@@ -25,223 +27,74 @@ const GALLERIES = [
     { id: 'pikachu-gallery', path: '/images/pikachu/pikachu', count: 12 },
     { id: 'mimosa-march-gallery', path: '/images/march/March', count: 21 },
     { id: 'vypusk-karas-gallery', path: '/images/karas/karas-vipusk/karas-vipusk', count: 18 },
-    { id: 'powder-white-gallery', path: '/images/fazenda/powder and white/powder and white', count: 22 }
+    { id: 'powder-white-gallery', path: '/images/fazenda/powder and white/powder and white', count: 22 },
+    { id: 'green-room-gallery', path: '/images/green-room/green_wall', count: 17, extension: 'JPG' },
+    { id: 'pine-river-gender-gallery', path: '/images/pine-river/gender/pine-river-gender', count: 6 },
+    { id: 'pine-river-nature-gallery', path: '/images/pine-river/nature/nature', count: 30 },
+    { id: 'sochnaya-fuksiya-gallery', path: '/images/fushe/fushe', count: 5 },
+    { id: 'cocktail-party-gallery', path: '/images/party/party', count: 6 },
+    { id: 'drakosha-gallery', path: '/images/dracon/dracon', count: 5 },
+    { id: 'sochnoe-godovasie-gallery', path: '/images/one year/one year', count: 13 },
+    { id: 'better-together-gallery', path: '/images/lodochnaya/vmeste/vmeste', count: 46 },
+    { id: 'avtor-gallery', path: '/images/avtor/kazino/kazino', count: 30 },
+    { id: 'candles-green-gallery', path: '/images/shoko_rocket/candels/candles', count: 62 }
 ];
 
-// ============================================
-// ФУНКЦИИ ДЛЯ НАВИГАЦИИ
-// ============================================
-function showPageFromHash() {
-    const hash = window.location.hash.substring(1) || 'about';
-    const page = document.getElementById('page-' + hash);
-    if (page) {
-        document.querySelectorAll('.page').forEach(p => {
-            p.classList.remove('active');
+function openGallery(index, galleryArray) { currentGallery = galleryArray; currentIndex = index; document.getElementById('modalImage').src = currentGallery[currentIndex]; document.getElementById('imageCounter').textContent = `${currentIndex+1}/${currentGallery.length}`; document.getElementById('photoModal').style.display = 'block'; document.body.style.overflow = 'hidden'; }
+function changeImage(d) { currentIndex += d; if (currentIndex < 0) currentIndex = currentGallery.length-1; else if (currentIndex >= currentGallery.length) currentIndex = 0; document.getElementById('modalImage').src = currentGallery[currentIndex]; document.getElementById('imageCounter').textContent = `${currentIndex+1}/${currentGallery.length}`; }
+function closeModal() { document.getElementById('photoModal').style.display = 'none'; document.body.style.overflow = ''; }
+function showPageFromHash() { const hash = window.location.hash.substring(1) || 'about'; const page = document.getElementById('page-' + hash); if(page) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); page.classList.add('active'); } }
+function saveScrollPosition() { const currentPage = document.querySelector('.page.active')?.id; if(currentPage) sessionStorage.setItem(`${currentPage}_scroll`, window.scrollY); }
+function restoreScrollPosition(pageId) { const savedPos = sessionStorage.getItem(`${pageId}_scroll`); if(savedPos) setTimeout(() => window.scrollTo(0, parseInt(savedPos)), 50); }
+function showPage(pageId) { const currentPage = document.querySelector('.page.active')?.id; if(currentPage) sessionStorage.setItem(`${currentPage}_scroll`, window.scrollY); document.querySelectorAll('.page').forEach(page => page.classList.remove('active')); const page = document.getElementById('page-' + pageId); if(page) { page.classList.add('active'); window.location.hash = pageId; } closeMenu(); closeAccordion(); restoreScrollPosition(pageId); }
+function toggleMenu() { document.getElementById('sidenav').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); document.querySelector('.menu-button').setAttribute('aria-expanded', document.getElementById('sidenav').classList.contains('open')); }
+function closeMenu() { document.getElementById('sidenav').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); document.querySelector('.menu-button').setAttribute('aria-expanded', 'false'); }
+function closeAccordion() { const content = document.getElementById('accordionContent'); const arrow = document.getElementById('accordionArrow'); const header = document.querySelector('.accordion-header'); if(content && arrow) { content.classList.remove('open'); arrow.classList.remove('open'); if(header) header.setAttribute('aria-expanded', 'false'); } }
+function toggleAccordion() { const content = document.getElementById('accordionContent'); const arrow = document.getElementById('accordionArrow'); const header = document.querySelector('.accordion-header'); if(content && arrow) { const isOpen = content.classList.contains('open'); content.classList.toggle('open'); arrow.classList.toggle('open'); if(header) header.setAttribute('aria-expanded', !isOpen); } }
+function generateGalleries() { GALLERIES.forEach(gallery => { const container = document.getElementById(gallery.id); if(!container) return; container.innerHTML = ''; const numbers = gallery.numbers || Array.from({length: gallery.count}, (_,i) => i+1); const ext = gallery.extension || 'jpg'; const galleryImages = []; numbers.forEach(num => { const imgSrc = `${gallery.path} (${num}).${ext}`; galleryImages.push(imgSrc); const col = document.createElement('div'); col.className = 'column'; const img = document.createElement('img'); img.dataset.src = imgSrc; img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E'; img.loading = 'lazy'; img.decoding = 'async'; img.alt = `Фото ${num}`; img.onclick = (function(idx, imgs) { return function() { openGallery(idx, imgs); }; })(num-1, galleryImages); col.appendChild(img); container.appendChild(col); }); }); }
+
+// УНИВЕРСАЛЬНАЯ ЛЕНИВАЯ ЗАГРУЗКА
+(function() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                const src = img.dataset.src;
+                if (src && !img.classList.contains('loaded')) {
+                    const temp = new Image();
+                    temp.onload = () => { img.src = src; img.classList.add('loaded'); img.classList.remove('lazy-image'); };
+                    temp.src = src;
+                }
+                observer.unobserve(img);
+            }
         });
-        page.classList.add('active');
-    }
-}
+    }, { rootMargin: '250px', threshold: 0.01 });
 
-// Сохраняем позицию скролла перед уходом
-function saveScrollPosition() {
-    const currentPage = document.querySelector('.page.active')?.id;
-    if (currentPage) {
-        sessionStorage.setItem(`${currentPage}_scroll`, window.scrollY);
-    }
-}
-
-// Восстанавливаем позицию скролла при возврате
-function restoreScrollPosition(pageId) {
-    const savedPos = sessionStorage.getItem(`${pageId}_scroll`);
-    if (savedPos) {
-        setTimeout(() => {
-            window.scrollTo({
-                top: parseInt(savedPos),
-                behavior: 'auto'
-            });
-        }, pageId === 'decor' || pageId === 'balloons' ? 300 : 50);
-    }
-}
-
-function showPage(pageId) {
-    // Сохраняем позицию текущей страницы перед уходом
-    const currentPage = document.querySelector('.page.active')?.id;
-    if (currentPage) {
-        sessionStorage.setItem(`${currentPage}_scroll`, window.scrollY);
-    }
-
-    // Переключаем страницу
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
-    
-    const page = document.getElementById('page-' + pageId);
-    if (page) {
-        page.classList.add('active');
-        window.location.hash = pageId;
-    }
-    
-    closeMenu();
-    closeAccordion();
-
-    // Восстанавливаем позицию для новой страницы
-    restoreScrollPosition(pageId);
-}
-
-// ============================================
-// ФУНКЦИИ ДЛЯ МЕНЮ
-// ============================================
-function toggleMenu() {
-    document.getElementById('sidenav').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('show');
-    const menuButton = document.querySelector('.menu-button');
-    const isExpanded = document.getElementById('sidenav').classList.contains('open');
-    menuButton.setAttribute('aria-expanded', isExpanded);
-}
-
-function closeMenu() {
-    document.getElementById('sidenav').classList.remove('open');
-    document.getElementById('overlay').classList.remove('show');
-    document.querySelector('.menu-button').setAttribute('aria-expanded', 'false');
-}
-
-// ============================================
-// ФУНКЦИИ ДЛЯ АККОРДЕОНА
-// ============================================
-function closeAccordion() {
-    const content = document.getElementById('accordionContent');
-    const arrow = document.getElementById('accordionArrow');
-    const header = document.querySelector('.accordion-header');
-    if (content && arrow) {
-        content.classList.remove('open');
-        arrow.classList.remove('open');
-        header.setAttribute('aria-expanded', 'false');
-    }
-}
-
-function toggleAccordion() {
-    const content = document.getElementById('accordionContent');
-    const arrow = document.getElementById('accordionArrow');
-    const header = document.querySelector('.accordion-header');
-    if (content && arrow) {
-        const isOpen = content.classList.contains('open');
-        content.classList.toggle('open');
-        arrow.classList.toggle('open');
-        header.setAttribute('aria-expanded', !isOpen);
-    }
-}
-
-// ============================================
-// ФУНКЦИИ ДЛЯ МОДАЛЬНОГО ОКНА
-// ============================================
-function openModal(src) {
-    const modal = document.getElementById('photoModal');
-    const modalImg = document.getElementById('modalImage');
-    modalImg.src = src;
-    modal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    
-    // Для доступности: перемещаем фокус в модальное окно
-    setTimeout(() => {
-        document.querySelector('.close').focus();
-    }, 100);
-}
-
-function closeModal() {
-    const modal = document.getElementById('photoModal');
-    modal.style.display = 'none';
-    document.body.style.overflow = '';
-}
-
-// ============================================
-// ГЕНЕРАЦИЯ ГАЛЕРЕЙ (ОПТИМИЗИРОВАННАЯ)
-// ============================================
-function generateGalleries() {
-    GALLERIES.forEach(gallery => {
-        const container = document.getElementById(gallery.id);
-        if (!container) return;
-
-        // Очищаем контейнер перед добавлением
-        container.innerHTML = '';
-
-        const numbers = gallery.numbers || Array.from({ length: gallery.count }, (_, i) => i + 1);
-        
-        numbers.forEach(num => {
-            const column = document.createElement('div');
-            column.className = 'column';
-            const img = document.createElement('img');
-            img.src = `${gallery.path} (${num}).jpg`;
-            img.loading = 'lazy';
-            img.decoding = 'async';
-            img.fetchpriority = 'low';
-            img.alt = `Фото ${num} из галереи`;
-            img.draggable = false;
-            img.onclick = () => openModal(img.src);
-            
-            // Заглушка на случай битой ссылки
-            img.onerror = function() {
-                this.src = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\' viewBox=\'0 0 200 200\'%3E%3Crect width=\'200\' height=\'200\' fill=\'%23f0f0f0\'/%3E%3Ctext x=\'50\' y=\'115\' font-family=\'Arial\' font-size=\'14\' fill=\'%23999\'%3EФото не найдено%3C/text%3E%3C/svg%3E';
-                this.alt = 'Изображение временно недоступно';
-            };
-            
-            column.appendChild(img);
-            container.appendChild(column);
+    function process(node) {
+        if(!node) return;
+        const imgs = node.querySelectorAll('img:not([data-lazy-processed])');
+        imgs.forEach(img => {
+            if(img.src && !img.dataset.src && !img.src.includes('data:image')) {
+                img.dataset.src = img.src;
+                img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E';
+                img.classList.add('lazy-image');
+                img.setAttribute('data-lazy-processed', 'true');
+                observer.observe(img);
+            } else if(img.dataset.src && !img.classList.contains('loaded') && !img.hasAttribute('data-lazy-processed')) {
+                img.classList.add('lazy-image');
+                img.setAttribute('data-lazy-processed', 'true');
+                observer.observe(img);
+            }
         });
-    });
-}
-
-// ============================================
-// ОБРАБОТЧИКИ СОБЫТИЙ
-// ============================================
-document.addEventListener('click', function(e) {
-    const accordion = document.getElementById('accordion');
-    const content = document.getElementById('accordionContent');
-    const header = document.querySelector('.accordion-header');
-    if (content && content.classList.contains('open') && accordion && !accordion.contains(e.target)) {
-        content.classList.remove('open');
-        const arrow = document.getElementById('accordionArrow');
-        if (arrow) arrow.classList.remove('open');
-        header.setAttribute('aria-expanded', 'false');
     }
-});
-
-document.querySelectorAll('img').forEach(img => {
-    img.setAttribute('draggable', 'false');
-});
+    function scanAll() { document.querySelectorAll('.row.masonry, .project-card, .about-photo, [id$="-gallery"]').forEach(el => process(el)); document.querySelectorAll('img').forEach(img => { if(!img.hasAttribute('data-lazy-processed')) process(img.parentElement || document.body); }); }
+    const origShow = window.showPage;
+    if(origShow) window.showPage = function(id) { origShow(id); setTimeout(scanAll, 150); };
+    const origGen = window.generateGalleries;
+    if(origGen) window.generateGalleries = function() { origGen(); scanAll(); };
+    document.addEventListener('DOMContentLoaded', () => { generateGalleries(); scanAll(); });
+    new MutationObserver(() => scanAll()).observe(document.body, { childList: true, subtree: true });
+})();
 
 window.addEventListener('hashchange', showPageFromHash);
-
-// Обработка клавиш для модального окна
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeModal();
-    }
-    
-    // Если модальное окно открыто, не даем tab уходить на фон
-    const modal = document.getElementById('photoModal');
-    if (modal.style.display === 'block' && e.key === 'Tab') {
-        const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-        
-        if (e.shiftKey && document.activeElement === firstElement) {
-            e.preventDefault();
-            lastElement.focus();
-        } else if (!e.shiftKey && document.activeElement === lastElement) {
-            e.preventDefault();
-            firstElement.focus();
-        }
-    }
-});
-
-// ============================================
-// ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
-// ============================================
-window.addEventListener('load', function() {
-    showPageFromHash();
-    generateGalleries();
-    
-    // Восстанавливаем позицию после полной загрузки
-    const currentPage = document.querySelector('.page.active')?.id || 'about';
-    restoreScrollPosition(currentPage);
-});
+window.addEventListener('load', function() { showPageFromHash(); if(typeof generateGalleries === 'function') generateGalleries(); });
