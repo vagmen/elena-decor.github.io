@@ -29,24 +29,167 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div class="dev-banner">Сайт в стадии разработки — материалы постоянно дополняются и обновляются</div>
-    <div class="menu-button" onclick="toggleMenu()"><span class="menu-icon">☰</span> МЕНЮ</div>
+    <header class="site-header">
+        <button class="site-logo" onclick="showPage('home')">Елена Нестерова</button>
+        <nav class="site-nav" aria-label="Основное меню">
+            <button onclick="showPage('home')">Главная</button>
+            <button onclick="showPage('decor')">Декор</button>
+            <button onclick="showPage('photozone')">Фотозоны</button>
+            <button onclick="showPage('balloons')">Шары</button>
+            <button onclick="showPage('brides')">Невесты</button>
+            <button onclick="showPage('about')">О Елене</button>
+            <button onclick="showPage('contacts')">Контакты</button>
+        </nav>
+        <button class="site-cta" onclick="openContactForm()">Связаться</button>
+    </header>
+
+    <div class="mobile-action-bar">
+        <button class="mobile-cta" onclick="openContactForm()">Связаться</button>
+        <button class="mobile-menu-button" onclick="toggleMenu()" aria-expanded="false" aria-label="Открыть меню"><span class="menu-icon">☰</span></button>
+    </div>
     <div class="overlay" id="overlay" onclick="closeMenu()"></div>
     <div class="sidenav" id="sidenav">
         <h3>Меню</h3>
         <ul>
-            <li><button onclick="showPage('about'); closeMenu()">О себе</button></li>
+            <li><button onclick="showPage('home'); closeMenu()">Главная</button></li>
             <li><button onclick="showPage('decor'); closeMenu()">Декор</button></li>
             <li><button onclick="showPage('photozone'); closeMenu()">Фотозона в студии</button></li>
             <li><button onclick="showPage('balloons'); closeMenu()">Шары</button></li>
             <li><button onclick="showPage('brides'); closeMenu()">Невесты</button></li>
+            <li><button onclick="showPage('about'); closeMenu()">О Елене</button></li>
             <li><button onclick="showPage('contacts'); closeMenu()">Контакты</button></li>
         </ul>
     </div>
 
     <div class="main-content">
+        <!-- ГЛАВНАЯ СТРАНИЦА -->
+        <div id="page-home" class="page active">
+            <section class="home-hero">
+                <div class="home-hero-text">
+                    <p class="home-kicker">Обнинск, Калуга, Москва и область</p>
+                    <h1>Декор праздников, свадеб, фотозон и шаров</h1>
+                    <p class="home-lead">Создаю оформление, которое держит атмосферу события: от камерной семейной даты до свадьбы с выездной регистрацией, фотозоной и продуманными деталями.</p>
+                    <div class="home-actions">
+                        <button class="home-primary" onclick="openContactForm()">Связаться</button>
+                        <button class="home-secondary" onclick="showPage('decor')">Смотреть работы</button>
+                    </div>
+                </div>
+                <div class="home-hero-photo">
+                    <img src="/images/lodochnaya/vmeste/vmeste (45).jpg" alt="Свадебный декор с цветами, тканями и неоном" loading="eager" decoding="async">
+                </div>
+            </section>
+
+            <section class="home-about">
+                <div class="home-about-photo">
+                    <img src="https://i.postimg.cc/BQhxn6hQ/1N0A0644.jpg" alt="Елена Нестерова" loading="lazy" decoding="async">
+                </div>
+                <div class="home-about-text">
+                    <p class="home-kicker">Елена Нестерова</p>
+                    <h2>Теплый декор с инженерной точностью</h2>
+                    <p>Мне важно, чтобы оформление было не просто красивым на фото, а удобным для гостей, понятным для площадки и честным по бюджету.</p>
+                    <button class="home-link-button" onclick="showPage('about')">Подробнее обо мне</button>
+                </div>
+            </section>
+
+            <section class="home-directions">
+                <div class="home-section-head">
+                    <p class="home-kicker">Направления</p>
+                    <h2>Что можно заказать</h2>
+                </div>
+                <div class="home-direction-grid">
+                    <article class="home-direction-card">
+                        <img src="/images/silver/green-day/green-day (35).jpg" alt="Декор свадебного зала Green Day" loading="lazy" decoding="async">
+                        <div>
+                            <h3>Декор</h3>
+                            <p>Свадьбы, выездные регистрации, президиумы, гостевые столы, схемы рассадки и welcome-зоны.</p>
+                            <button onclick="showPage('decor')">Смотреть декор</button>
+                        </div>
+                    </article>
+                    <article class="home-direction-card">
+                        <img src="/images/mini/mini (1).jpg" alt="Мини фотозона с шарами и декоративной панелью" loading="lazy" decoding="async">
+                        <div>
+                            <h3>Фотозоны</h3>
+                            <p>Студийные и выездные фотозоны для дней рождения, выпускных, гендер-пати и семейных событий.</p>
+                            <button onclick="showPage('photozone')">Смотреть фотозоны</button>
+                        </div>
+                    </article>
+                    <article class="home-direction-card">
+                        <img src="/images/edinorog/edinorog (1).jpg" alt="Оформление шарами в теме единорога" loading="lazy" decoding="async">
+                        <div>
+                            <h3>Шары</h3>
+                            <p>Композиции, гелиевые шары, детские темы, коробки-сюрпризы и оформление под конкретную площадку.</p>
+                            <button onclick="showPage('balloons')">Смотреть шары</button>
+                        </div>
+                    </article>
+                    <article class="home-direction-card">
+                        <img src="/images/bridal-salon.jpg" alt="Светлый зал свадебного салона с платьями" loading="lazy" decoding="async">
+                        <div>
+                            <h3>Невесты</h3>
+                            <p>Свадебный салон, примерки и образы для невест в Обнинске. Раздел будет пополняться.</p>
+                            <button onclick="showPage('brides')">О салоне</button>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="home-contact" id="contact-form">
+                <div>
+                    <p class="home-kicker">Заявка</p>
+                    <h2>Расскажите о событии</h2>
+                    <p>Напишите дату, город, площадку и что нужно оформить. Я сориентирую по возможностям и следующему шагу.</p>
+                </div>
+                <form class="request-form">
+                    <div class="request-fields">
+                        <label>
+                        <span>Ваше имя <strong>*</strong></span>
+                        <input type="text" name="name" placeholder="Введите имя" autocomplete="name" required>
+                        </label>
+                        <label>
+                            <span>Ваш телефон <strong>*</strong></span>
+                            <input type="tel" name="phone" placeholder="Введите телефон" autocomplete="tel" required>
+                        </label>
+                    </div>
+                    <fieldset>
+                        <legend>Выберите услугу</legend>
+                        <label><input type="radio" name="service" value="decor"><span>Декор</span></label>
+                        <label><input type="radio" name="service" value="photozone"><span>Фотозона</span></label>
+                        <label><input type="radio" name="service" value="balloons"><span>Шары</span></label>
+                        <label><input type="radio" name="service" value="other"><span>Другое</span></label>
+                    </fieldset>
+                    <label>
+                        <span>Комментарий</span>
+                        <textarea name="comment" rows="5" placeholder="Дата, город, площадка, пожелания"></textarea>
+                    </label>
+                    <label class="request-consent">
+                        <input type="checkbox" name="consent" required>
+                        <span>Я согласен на обработку персональных данных <strong>*</strong></span>
+                    </label>
+                    <button type="button" class="request-submit" disabled>Отправить</button>
+                    <p class="request-note">Форма временно показана как макет. Отправку подключим после выбора сервиса для заявок.</p>
+                </form>
+            </section>
+
+            <footer class="home-footer">
+                <div>
+                    <h2>Елена Нестерова</h2>
+                    <p>Декор праздников, свадеб, фотозон и шаров в Обнинске, Калуге, Наро-Фоминске, Москве и ближайших городах.</p>
+                </div>
+                <nav class="home-footer-nav" aria-label="Разделы сайта">
+                    <button onclick="showPage('decor')">Декор</button>
+                    <button onclick="showPage('photozone')">Фотозоны</button>
+                    <button onclick="showPage('balloons')">Шары</button>
+                    <button onclick="showPage('about')">О Елене</button>
+                </nav>
+                <div class="home-footer-links">
+                    <a href="tel:+79036367999">+7 903 636-79-99</a>
+                    <a href="https://t.me/elena_luce_solare" target="_blank" rel="noopener">Telegram</a>
+                    <button onclick="showPage('contacts')">Адреса и карты</button>
+                </div>
+            </footer>
+        </div>
+
         <!-- СТРАНИЦА О СЕБЕ -->
-        <div id="page-about" class="page active">
+        <div id="page-about" class="page">
             <div class="about-container">
                 <div class="about-text">
                     <h1>Всем привет! Меня зовут Елена.</h1>
@@ -65,7 +208,7 @@
         <!-- СТРАНИЦА ДЕКОР (полная версия) -->
         <div id="page-decor" class="page">
             <h1>Декор</h1>
-            <button class="back-link" onclick="showPage('about')">← на главную</button>
+            <button class="back-link" onclick="showPage('home')">← на главную</button>
             <h2>GoodWin Hall</h2>
             <div class="row masonry"><div class="column"><a href="https://disk.yandex.ru/d/UG-4Kn_X0k42jw" target="_blank" class="project-card"><img class="project-cover" src="https://i.postimg.cc/rFT6570D/2025-07-25-14-20-29-print-00022.jpg" loading="lazy" decoding="async" alt="Forest wedding"><div class="project-info"><div class="project-title">Forest wedding</div><div class="project-tags">президиум • выездная • классическая арка • гостевые столы • схема рассадки • салфетки • неон</div></div></a></div></div>
             <h2>Rocket Hall</h2>
@@ -130,7 +273,7 @@
         <!-- ФОТОЗОНА В СТУДИИ -->
         <div id="page-photozone" class="page">
             <h1>Фотозона в студии</h1>
-            <button class="back-link" onclick="showPage('about')">← на главную</button>
+            <button class="back-link" onclick="showPage('home')">← на главную</button>
             <div class="row masonry">
                 <div class="column"><a href="https://disk.yandex.ru/d/eIB0-ux6vLv9Cw" target="_blank" class="project-card"><img class="project-cover" src="https://i.postimg.cc/3NB7VLX1/DSC00276.jpg" loading="lazy" decoding="async" alt="Выписка"><div class="project-info"><div class="project-title">Выписка</div><div class="project-tags">панели solaair • фигуры ПВХ • шары</div></div></a></div>
                 <div class="column"><a href="https://disk.yandex.ru/d/T_KzIin31jBmtg" target="_blank" class="project-card"><img class="project-cover" src="https://i.postimg.cc/y8LqYL6d/DSC00563.jpg" loading="lazy" decoding="async" alt="Феи"><div class="project-info"><div class="project-title">Феи</div><div class="project-tags">панели solaair • фигуры ПВХ • шары</div></div></a></div>
@@ -158,7 +301,7 @@
         <!-- ШАРЫ - главная страница -->
         <div id="page-balloons" class="page">
             <h1>Шары</h1>
-            <div style="margin-bottom:20px;"><button onclick="showPage('about')" style="color:#67bed9; cursor:pointer; background:none; border:none; font-size:16px;">← Главная</button></div>
+            <div style="margin-bottom:20px;"><button onclick="showPage('home')" style="color:#67bed9; cursor:pointer; background:none; border:none; font-size:16px;">← Главная</button></div>
             <h2>Мир сказок ✨</h2>
             <div style="margin: 5px 0 20px; color: #666; font-weight:300; font-size: 15px;">Единороги, феи, принцессы — всё, что делает детство волшебным</div>
             <div class="row masonry">
@@ -220,7 +363,7 @@
         <!-- НЕВЕСТЫ -->
         <div id="page-brides" class="page">
             <h1>Невесты</h1>
-            <button class="back-link" onclick="showPage('about')">← на главную</button>
+            <button class="back-link" onclick="showPage('home')">← на главную</button>
             <div style="margin: 20px 0 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
                 <h3 style="color:#67bed9; font-weight:300; margin-bottom:10px;">Свадебные и вечерние платья в Обнинске</h3>
                 <p style="color:#555; line-height:1.6; font-weight:300;">Салон «Невеста» предлагает большой выбор элегантных платьев для свадеб, выпускных и торжественных мероприятий. Индивидуальный подход, примерка по предварительной записи. Ждём вас в Обнинске.</p>
@@ -235,23 +378,11 @@
         <!-- КОНТАКТЫ -->
         <div id="page-contacts" class="page">
             <h1>Контакты</h1>
-            <button class="back-link" onclick="showPage('about')">← на главную</button>
+            <button class="back-link" onclick="showPage('home')">← на главную</button>
             <h3 style="color:#67bed9; font-weight:300;">🎈 Самовывоз шаров, декор</h3>
             <p style="margin-bottom: 10px; font-weight:300;">ул. Гагарина, 46, Обнинск</p>
             <div style="width:100%; border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px;"><iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=195253953409" style="width:100%; height:300px; border:0;" allowfullscreen loading="lazy"></iframe></div>
             <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 40px;"><a href="tel:+79036367999" style="text-decoration: none;"><img src="https://img.icons8.com/material-outlined/96/000000/phone--v1.png" alt="Телефон" style="width: 40px; height: 40px;"></a><a href="https://t.me/elena_luce_solare" target="_blank" style="text-decoration: none;"><img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" style="width: 40px; height: 40px;"></a></div>
-        </div>
-    </div>
-
-    <div class="fixed-footer">
-        <div class="accordion-container" id="accordion">
-            <div class="accordion-header" onclick="toggleAccordion()"><h3>Нужна помощь с декором? Напишите мне</h3><span class="accordion-arrow" id="accordionArrow">▼</span></div>
-            <div class="accordion-content" id="accordionContent">
-                <div class="qform-container">
-                    <script type="text/javascript">(function(){if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){var scr=document.createElement('script');scr.src='https://cdn.qform.io/forms.js?v='+new Date().getTime();scr.async=true;document.body.appendChild(scr);});}else{var scr=document.createElement('script');scr.src='https://cdn.qform.io/forms.js?v='+new Date().getTime();scr.async=true;document.body.appendChild(scr);}})();</script>
-                    <div data-formid="form_sy2uJtkyaE_w6vNtgzWl60ICNOAaUxPZ"></div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -263,8 +394,6 @@
         <img class="modal-content" id="modalImage" onclick="event.stopPropagation()">
     </div>
 
-    <div class="city-info">Основные проекты — в Обнинске и городах Калужской области. Также оформляю праздники в Наро‑Фоминске и с радостью выезжаю в Москву.</div>
-    <div class="protection-note">фотографии защищены</div>
     <script src="/script.js"></script>
 </body>
 </html>
