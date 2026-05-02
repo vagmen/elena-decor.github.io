@@ -43,14 +43,79 @@ const GALLERIES = [
 function openGallery(index, galleryArray) { currentGallery = galleryArray; currentIndex = index; document.getElementById('modalImage').src = currentGallery[currentIndex]; document.getElementById('imageCounter').textContent = `${currentIndex+1}/${currentGallery.length}`; document.getElementById('photoModal').style.display = 'block'; document.body.style.overflow = 'hidden'; }
 function changeImage(d) { currentIndex += d; if (currentIndex < 0) currentIndex = currentGallery.length-1; else if (currentIndex >= currentGallery.length) currentIndex = 0; document.getElementById('modalImage').src = currentGallery[currentIndex]; document.getElementById('imageCounter').textContent = `${currentIndex+1}/${currentGallery.length}`; }
 function closeModal() { document.getElementById('photoModal').style.display = 'none'; document.body.style.overflow = ''; }
-function showPageFromHash() { const hash = window.location.hash.substring(1) || 'home'; const page = document.getElementById('page-' + hash); if(page) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); page.classList.add('active'); } }
-function saveScrollPosition() { const currentPage = document.querySelector('.page.active')?.id; if(currentPage) sessionStorage.setItem(`${currentPage}_scroll`, window.scrollY); }
-function restoreScrollPosition(pageId) { const savedPos = sessionStorage.getItem(`${pageId}_scroll`); if(savedPos) setTimeout(() => window.scrollTo(0, parseInt(savedPos)), 50); }
-function showPage(pageId) { const currentPage = document.querySelector('.page.active')?.id; if(currentPage) sessionStorage.setItem(`${currentPage}_scroll`, window.scrollY); document.querySelectorAll('.page').forEach(page => page.classList.remove('active')); const page = document.getElementById('page-' + pageId); if(page) { page.classList.add('active'); window.location.hash = pageId; } closeMenu(); restoreScrollPosition(pageId); updateMobileActions(); }
+function normalizeBase(base) { return base.endsWith('/') ? base : `${base}/`; }
+function buildSiteHeader(base) {
+    return `
+    <header class="site-header">
+        <button class="site-logo" onclick="location.href='${base}'">Елена Нестерова</button>
+        <nav class="site-nav" aria-label="Основное меню">
+            <button onclick="location.href='${base}'">Главная</button>
+            <button onclick="location.href='${base}decor/'">Декор</button>
+            <button onclick="location.href='${base}photozones/'">Фотозоны</button>
+            <button onclick="location.href='${base}balloons/'">Шары</button>
+            <button onclick="location.href='${base}brides/'">Невесты</button>
+            <button onclick="location.href='${base}about/'">О Елене</button>
+            <button onclick="location.href='${base}contacts/'">Контакты</button>
+        </nav>
+        <button class="site-cta" onclick="location.href='${base}contacts/#form'">Связаться</button>
+    </header>
+    <div class="mobile-action-bar">
+        <button class="mobile-cta" onclick="location.href='${base}contacts/#form'">Связаться</button>
+        <button class="mobile-menu-button" onclick="toggleMenu()" aria-expanded="false" aria-label="Открыть меню"><span class="menu-icon">☰</span></button>
+    </div>
+    <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+    <div class="sidenav" id="sidenav">
+        <h3>Меню</h3>
+        <ul>
+            <li><button onclick="location.href='${base}'; closeMenu()">Главная</button></li>
+            <li><button onclick="location.href='${base}decor/'; closeMenu()">Декор</button></li>
+            <li><button onclick="location.href='${base}photozones/'; closeMenu()">Фотозоны</button></li>
+            <li><button onclick="location.href='${base}balloons/'; closeMenu()">Шары</button></li>
+            <li><button onclick="location.href='${base}brides/'; closeMenu()">Невесты</button></li>
+            <li><button onclick="location.href='${base}about/'; closeMenu()">О Елене</button></li>
+            <li><button onclick="location.href='${base}contacts/'; closeMenu()">Контакты</button></li>
+        </ul>
+    </div>`;
+}
+function buildSiteFooter(base) {
+    return `
+        <footer class="site-footer">
+            <div>
+                <h2>Елена Нестерова</h2>
+                <p>Декор праздников, свадеб, фотозон и шаров в Обнинске, Калуге, Наро-Фоминске, Москве и ближайших городах.</p>
+            </div>
+            <nav class="site-footer-nav" aria-label="Разделы сайта">
+                <button onclick="location.href='${base}decor/'">Декор</button>
+                <button onclick="location.href='${base}photozones/'">Фотозоны</button>
+                <button onclick="location.href='${base}balloons/'">Шары</button>
+                <button onclick="location.href='${base}about/'">О Елене</button>
+            </nav>
+            <div class="site-footer-links">
+                <a href="tel:+79036367999">+7 903 636-79-99</a>
+                <a href="https://t.me/elena_luce_solare" target="_blank" rel="noopener">Telegram</a>
+                <button onclick="location.href='${base}contacts/'">Адреса и карты</button>
+            </div>
+        </footer>`;
+}
+function renderSiteShell() {
+    document.querySelectorAll('[data-site-chrome]').forEach(host => {
+        const base = normalizeBase(host.getAttribute('data-base') || './');
+        document.body.dataset.siteBase = base;
+        host.outerHTML = buildSiteHeader(base);
+    });
+
+    document.querySelectorAll('[data-site-footer]').forEach(host => {
+        const base = normalizeBase(host.getAttribute('data-base') || './');
+        document.body.dataset.siteBase = base;
+        host.outerHTML = buildSiteFooter(base);
+    });
+}
 function toggleMenu() { document.getElementById('sidenav').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); document.querySelectorAll('.mobile-menu-button').forEach(button => button.setAttribute('aria-expanded', document.getElementById('sidenav').classList.contains('open'))); }
 function closeMenu() { document.getElementById('sidenav').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); document.querySelectorAll('.mobile-menu-button').forEach(button => button.setAttribute('aria-expanded', 'false')); }
-function scrollToContactForm() { const form = document.getElementById('contact-form'); if(form) form.scrollIntoView({ behavior: 'smooth', block: 'start' }); closeMenu(); }
-function openContactForm() { if(!document.getElementById('page-home')?.classList.contains('active')) { showPage('home'); } setTimeout(scrollToContactForm, 50); }
+function openContactForm() {
+    const base = document.body.dataset.siteBase || './';
+    location.href = `${base}contacts/#form`;
+}
 function updateMobileActions() { const isHome = document.getElementById('page-home')?.classList.contains('active'); document.body.classList.toggle('show-mobile-actions', !isHome || window.scrollY > 520); }
 function generateGalleries() { GALLERIES.forEach(gallery => { const container = document.getElementById(gallery.id); if(!container) return; container.innerHTML = ''; const numbers = gallery.numbers || Array.from({length: gallery.count}, (_,i) => i+1); const ext = gallery.extension || 'jpg'; const galleryImages = []; numbers.forEach(num => { const imgSrc = `${gallery.path} (${num}).${ext}`; galleryImages.push(imgSrc); const col = document.createElement('div'); col.className = 'column'; const img = document.createElement('img'); img.dataset.src = imgSrc; img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E'; img.loading = 'lazy'; img.decoding = 'async'; img.alt = `Фото ${num}`; img.onclick = (function(idx, imgs) { return function() { openGallery(idx, imgs); }; })(num-1, galleryImages); col.appendChild(img); container.appendChild(col); }); }); }
 
@@ -97,6 +162,5 @@ function generateGalleries() { GALLERIES.forEach(gallery => { const container = 
     new MutationObserver(() => scanAll()).observe(document.body, { childList: true, subtree: true });
 })();
 
-window.addEventListener('hashchange', function() { showPageFromHash(); updateMobileActions(); });
 window.addEventListener('scroll', updateMobileActions, { passive: true });
-window.addEventListener('load', function() { showPageFromHash(); if(typeof generateGalleries === 'function') generateGalleries(); updateMobileActions(); });
+window.addEventListener('load', function() { renderSiteShell(); if(typeof generateGalleries === 'function') generateGalleries(); updateMobileActions(); });

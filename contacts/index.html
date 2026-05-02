@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты | Елена Нестерова</title>
+    <meta name="description" content="Контакты, телефон и мессенджеры для связи с Еленой Нестеровой.">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div data-site-chrome data-base="../"></div>
+    <div class="main-content">
+        <div class="page active">
+            <h1>Контакты</h1>
+            <div class="about-container">
+                <div class="about-text">
+                    <p><strong>Телефон:</strong> <a href="tel:+79036367999">+7 903 636-79-99</a></p>
+                    <p><strong>Telegram:</strong> <a href="https://t.me/elena_luce_solare" target="_blank" rel="noopener">@elena_luce_solare</a></p>
+                    <p><strong>География:</strong> Обнинск, Калуга, Москва и ближайшие города.</p>
+                    <p><strong>Следующий шаг:</strong> напишите дату, город и что именно нужно оформить — я отвечу с ориентиром по срокам и идеям.</p>
+                </div>
+                <div class="about-photo">
+                    <img src="https://i.postimg.cc/BQhxn6hQ/1N0A0644.jpg" alt="Елена Нестерова" loading="lazy" decoding="async">
+                </div>
+            </div>
+
+            <section class="home-contact" id="form">
+                <div>
+                    <p class="home-kicker">Заявка</p>
+                    <h2>Напишите о событии</h2>
+                    <p>Дата, город, площадка и что нужно оформить. Я отвечу с ориентиром по идее, срокам и следующему шагу.</p>
+                </div>
+                <form class="request-form">
+                    <div class="request-fields">
+                        <label>
+                            <span>Ваше имя <strong>*</strong></span>
+                            <input type="text" name="name" placeholder="Введите имя" autocomplete="name" required>
+                        </label>
+                        <label>
+                            <span>Ваш телефон <strong>*</strong></span>
+                            <input type="tel" name="phone" placeholder="Введите телефон" autocomplete="tel" required>
+                        </label>
+                    </div>
+                    <fieldset>
+                        <legend>Выберите услугу</legend>
+                        <label><input type="radio" name="service" value="decor"><span>Декор</span></label>
+                        <label><input type="radio" name="service" value="photozone"><span>Фотозона</span></label>
+                        <label><input type="radio" name="service" value="balloons"><span>Шары</span></label>
+                        <label><input type="radio" name="service" value="other"><span>Другое</span></label>
+                    </fieldset>
+                    <label>
+                        <span>Комментарий</span>
+                        <textarea name="comment" rows="5" placeholder="Дата, город, площадка, пожелания"></textarea>
+                    </label>
+                    <label class="request-consent">
+                        <input type="checkbox" name="consent" required>
+                        <span>Я согласен на обработку персональных данных <strong>*</strong></span>
+                    </label>
+                    <button type="button" class="request-submit" disabled>Отправить</button>
+                    <p class="request-note">Форма временно показана как макет. Отправку подключим после выбора сервиса для заявок.</p>
+                </form>
+            </section>
+        </div>
+    </div>
+    <div data-site-footer data-base="../"></div>
+    <script src="../script.js"></script>
+</body>
+</html>
